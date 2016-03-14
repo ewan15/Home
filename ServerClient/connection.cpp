@@ -1,4 +1,5 @@
 #include "connection.h"
+#include "file_sys.h"
 
 int SetupConnection(){
   int listenFd, portNo;
@@ -44,7 +45,7 @@ int RecvData(int listenFd){
     getline(std::cin, cmd);
     std::cout << "Cmd: " << cmd << std::endl;
     send(listenFd, cmd.c_str(), 512, 0);
-    std::string output;
-    recv(listenFd, output, 512, 0);
+    char* output;
+    recv(listenFd, (char *)output, 512, 0);
   }
 }
