@@ -40,12 +40,18 @@ int SetupConnection(){
 }
 int RecvData(int listenFd){
   for (;;) {
+    char* output;
     std::cout << ">";
     std::string cmd;
     getline(std::cin, cmd);
     std::cout << "Cmd: " << cmd << std::endl;
+    //recv(listenFd, output, 512, 0);
     send(listenFd, cmd.c_str(), 512, 0);
-    char* output;
-    recv(listenFd, (char *)output, 512, 0);
+    recv(listenFd, output, 512, 0);
+    if (strcmp(output, "Recv")==0) {
+      std::cout << output << std::endl;
+    }else{
+      std::cout << "Packet unsuccessful" << std::endl;
+    }
   }
 }

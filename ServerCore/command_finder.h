@@ -9,5 +9,5 @@
 
 
 void Scan_Command(std::string msg);
-
+void printNodes();
 #endif

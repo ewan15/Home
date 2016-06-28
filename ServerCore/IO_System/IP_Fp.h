@@ -4,9 +4,10 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <istream>
 
 void IP_To_Hostname(std::string IP_Addr_Str);
-void Save_IP_Hostname_Fp(std::string IP, std::string Hostname);
-void Find_Hostname(std::string);
+int Save_IP_Hostname_Fp(std::string IP, std::string Hostname);
+int Find_Hostname(std::string);
 
 #endif

@@ -1,0 +1,14 @@
+CC=g++
+CFLAGS=-c -Wall
+LDFLAGS=
+SOURCES=main.cpp main.h RPiControl.cpp RPiControl.h network_setup.cpp network_setup.h command_finder.cpp command_finder.h client_connection.cpp client_connection.h IP_Fp.cpp IP_Fp.h
+OBJECTS=$(SOURCES:.cpp=.o)
+EXECUTABLE=hello
+
+all: $(SOURCES) $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+    $(CC) $(LDFLAGS) $(OBJECTS) -o $@
+
+.cpp.o:
+    $(CC) $(CFLAGS) $< -o $@

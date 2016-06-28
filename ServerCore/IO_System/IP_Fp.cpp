@@ -18,31 +18,45 @@ void IP_To_Hostname(std::string IP_Addr_Str){
   IP_Hostname_fp.close();
 }
 
-void Save_IP_Hostname_Fp(std::string IP, std::string Hostname){
-  std::ofstream IP_Hostname_fp ("Config/IP.txt", std::ios::out);
+int Save_IP_Hostname_Fp(std::string IP, std::string Hostname){
+  std::ofstream IP_Hostname_fp ("Config/IP.txt", std::fstream::in | std::fstream::out | std::fstream::app);
   if(IP_Hostname_fp.is_open()) {
-    std::string OutputStr = "IP="+IP+" HOSTNAME=" + Hostname;
+    //IP_Hostname_fp.seekp(IP_Hostname_fp.end);
+    std::string OutputStr = "\nIP="+IP+" HOSTNAME=" + Hostname;
     IP_Hostname_fp << OutputStr;
     IP_Hostname_fp.close();
+    std::cout << "Added user to IP.txt" << std::endl;
   }
 }
 
-void Find_Hostname(std::string Hostname) {
-  std::ifstream IP_Hostname_fp ("Config/IP.txt",std::ios::in);
+int Find_Hostname(std::string Hostname) {
+  std::cout << "Checking if hostname is taken..." << std::endl;
+  std::ifstream IP_Hostname_fp ("Config/IP.txt");
+  int succ = 0;
   if(IP_Hostname_fp.is_open()) {
     std::string buffer;
+    std::string hostBuffer;
     while( getline(IP_Hostname_fp,buffer) ) {
       std::cout << buffer << std::endl;
-
       std::size_t found = buffer.find("=");
-      found=buffer.find("=",found+1,6);
+      found=buffer.find("=",found+1);
       if (found!=std::string::npos)
-        std::cout << "Hostname pos:" << found << '\n';
+        //std::cout << "Hostname pos:" << found << '\n';
+        hostBuffer = buffer.substr(found+1);
+        std::cout << "Checking hostname: " << hostBuffer << std::endl;
+        if (hostBuffer.compare(Hostname) == 0) {
+          std::cout << "Taken" << std::endl;
+          succ = 1;
+          return 1;
+        }
       }
-
       IP_Hostname_fp.close();
     }
   else {
     std::cout << "Unable to open file" << std::endl;
+  }
+  if (succ == 0) {
+    std::cout << "Not taken!" << std::endl;
+    return 0;
   }
 }
